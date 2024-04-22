@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for c in levels %}
+    <h2>LEVEL {{ c }}</h2>
+    {% for flashcard in flashcards %}
+        {% if flashcard.level == c %}
+            {{ flashcard.question }} - {{flashcard.answer}}<br>
+            <button class="show-answer">Show answer</button>
+            {{ flashcard.date }}
+        {% endif %}
+    {% endfor %}
+    {% endfor %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.show-answer').click(function() {
+                $(this).next('.answer').show();
+            });
+        });
+    </script>
+</body>
+</html>
