@@ -68,16 +68,40 @@
         .delete-button:hover {
             background-color: #d21000; /* Cor de fundo vermelha mais escura no hover */
         }
+        .new-flashcard-link {
+            display: inline-block;
+            background-color: #007bff; /* Cor de fundo azul */
+            color: #fff; /* Cor do texto branco */
+            text-decoration: none; /* Remover sublinhado do link */
+            padding: 10px 20px; /* Espaçamento interno */
+            border-radius: 5px; /* Borda arredondada */
+            transition: background-color 0.3s ease; /* Transição suave de cor de fundo */
+        }
+    
+        .new-flashcard-link:hover {
+            background-color: #0056b3; /* Cor de fundo azul mais escura no hover */
+        }
     </style>
 </head>
 <body>
     <center>
         <h1>Welcome to Flashcards App</h1>
         <p>Lets study?</p>
+
+        <form method="GET">
+            {% for choice in filter_form.level.field.choices %}
+            <button type="submit" name="level" value="{{ choice.0 }}">{{ choice.1 }}</button>
+            {% endfor %}
+            
+        </form>
+        <a href = "{% url 'index' %}">Clear Filters</a>
+
+
     </center>
     <div class="container">
+        <a href = "{% url 'new' %}" class = 'new-flashcard-link'>New Flashcard</a>
+        <p></p>
         {% for c in levels %}
-        <h2>Level {{ c }}</h2>
         {% for flashcard in flashcards %}
             {% if flashcard.level == c %}
                 <div class="flashcard">
@@ -85,7 +109,11 @@
                     <button class="show-answer">Show answer</button>
                     <p class="answer">{{ flashcard.answer }}</p>
                     <small><p class="date">{{ flashcard.date }}</p></small>
-                    <a href="#"><button class="delete-button">Delete</button></a>
+                    <form action="{% url 'delete' flashcard.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                    
                 </div>
             {% endif %}
         {% endfor %}
