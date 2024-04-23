@@ -32,3 +32,8 @@ def new(request):
     else:
         form = NewCardForms()
     return render(request, 'create_new.html', {'form': form})
+
+def study_mode(request):
+    flashcards = Cards.objects.all().order_by('?')
+    context = {'flashcards': flashcards}
+    return render(request, 'study_mode.html', context = context)

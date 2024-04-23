@@ -81,17 +81,75 @@
         .new-flashcard-link:hover {
             background-color: #0056b3; /* Cor de fundo azul mais escura no hover */
         }
+
+        .study-mode-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .study-mode-button:hover {
+            background-color: #218838;
+        }
+
+        .clear-filters-button {
+            background-color: #dc3545; /* Cor de fundo vermelha */
+            color: #fff; /* Cor do texto branco */
+            border: none; /* Sem borda */
+            padding: 5px 10px; /* Espaçamento interno */
+            border-radius: 3px; /* Borda arredondada */
+            cursor: pointer; /* Cursor de ponteiro */
+            font-size: 0.8rem; /* Tamanho de fonte menor */
+            margin-right: 5px; /* Adiciona um espaço à direita */
+        }
+
+        .clear-filters-button:hover {
+            background-color: #c82333; 
+        }
+
+        .filters-button {
+            background-color: #D3D3D3; 
+            color: #000000; 
+            border: none; 
+            padding: 5px 10px;
+            border-radius: 3px; 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            margin-right: 5px; 
+        }
+
+        .filters-button:hover {
+            background-color: #c82333; 
+        }
+
+        .level-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            color: #C6C6C6 ;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
     <center>
-        <h1>Welcome to Flashcards App</h1>
-        <p>Lets study?</p>
+        <h1>Welcome to Flashcards App ⚡</h1>
+        <p>Let's study?</p>
 
         <form method="GET">
             {% for choice in filter_form.level.field.choices %}
-            <button type="submit" name="level" value="{{ choice.0 }}">{{ choice.1 }}</button>
+            <button type="submit" name="level" value="{{ choice.0 }}" class = 'filters-button'>{{ choice.1 }}</button>
             {% endfor %}
+            <p></p>
             
         </form>
         <a href = "{% url 'index' %}">Clear Filters</a>
@@ -105,6 +163,7 @@
         {% for flashcard in flashcards %}
             {% if flashcard.level == c %}
                 <div class="flashcard">
+                    <div class="level-indicator">Level {{ flashcard.level }}</div>
                     <p>{{ flashcard.question }}</p>
                     <button class="show-answer">Show answer</button>
                     <p class="answer">{{ flashcard.answer }}</p>
@@ -118,6 +177,7 @@
             {% endif %}
         {% endfor %}
         {% endfor %}
+        <a href="{% url 'study_mode' %}" class="study-mode-button">Study Mode</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
